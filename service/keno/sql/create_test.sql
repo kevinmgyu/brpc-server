@@ -1,9 +1,0 @@
-use brpc;
-
-DROP TABLE IF EXISTS `test`;
-CREATE TABLE `test` (
-		`id`            BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		`time`          DOUBLE NOT NULL,
-		`num`     BIGINT NOT NULL
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
