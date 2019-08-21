@@ -1,0 +1,133 @@
+syntax="proto3";
+package bytetrade_pb;
+
+
+option cc_generic_services = true;
+// map<account_id_type, uint32_t>  pay_pieces;
+//map<std::string,share_type>  increase_trx;
+
+message torrent_payment {
+	 string  payment_id=1;
+	 string  torrent_id=2;
+	 double time=3;
+	 uint64 create_time=4;
+	 uint64 selttement_time=5;
+	 uint64 refund_time=6;
+	 string  user_id=7;
+	 uint32 asset=8;
+	 uint32 pieces=9;
+	 uint32 payed_pieces=10;
+	 uint64 sizes=11;
+	 uint32 percent=12;
+	 bool is_selttement=13;
+	 bool is_refund=14;
+	 string sign_address=15;
+	 //string pay_pieces_str=16;
+	map<string,uint32> pay_pieces = 17;
+	 string selttement_trx_id=18;
+	 string refund_trx_id=19;
+	 string receipt_trx_id=20;
+	 //string increase_trx_str=21;
+	map<string,string> increase_trx=22;
+	 string  author_amount=23;
+	 string payment_amount=24;
+
+	 string transfer_one_piece_amount=25;
+	 string author_one_piece_amount=26;
+	 string receiver_author_one_piece_amount=27;
+
+}
+
+message torrent {
+	 string id=1;
+	 string transaction_id=2;   
+	 double time=3;
+	 uint64  create_block=4;
+	 uint64  last_modify=5;
+	 string user_id=6;
+	 uint32 asset=7;
+	 string balance=8;
+	 uint32  percent=9;
+	 uint32  pay_times=10;
+	 uint32  finish_times=11;
+	 bool  is_create=12;
+}
+
+
+
+
+
+message get_create_torrent_response {
+	 int32 code=1;
+	 string message=2;
+	 torrent result=3;
+}
+message get_create_torrent_request {
+	 //string method=1;
+	//repeated int32 params=2;
+	// uint64 id=3;
+}
+
+
+message get_torrent_payment_response {
+	 int32 code=1;
+	 string message=2;
+	 torrent_payment result=3;
+}
+message get_torrent_payment_request {
+	// string method=1;
+	//repeated int32 params=2;
+	 //uint64 id=3;
+}
+
+message authority {
+	uint32 weight_threshold = 1;
+	map<string ,uint32> account_auths = 2;
+	map<string ,uint32> key_auths = 3;
+	map<string ,uint32> address_auths = 4;
+}
+message account_object_pb {
+	string id = 1;
+	authority owner = 2;
+	authority active = 3;
+}
+
+message get_torrent_payment_realtime_request{
+}
+
+message get_torrent_realtime_response {
+         int32 code=1;
+         string message=2;
+         torrent result=3;
+}
+message get_torrent_realtime_request{
+}
+message torrent_payment_realtime_body{
+	torrent_payment torrent_payment = 1; 
+	string account = 2;
+	torrent torrent = 3;
+}
+
+message get_torrent_payment_realtime_response {
+         int32 code=1;
+         string message=2;
+         torrent_payment_realtime_body result=3;
+}
+
+message get_account_response {
+	 uint32 code=1;
+         string message=2;
+	string account = 3;
+}	
+message get_account_request {
+}
+service BytetradeService {
+	rpc get_create_history(get_create_torrent_request) returns (get_create_torrent_response);
+
+	rpc get_payment_history(get_torrent_payment_request)  returns(get_torrent_payment_response);
+	
+	rpc get_torrent(get_torrent_realtime_request) returns(get_torrent_realtime_response);	
+	rpc get_torrent_payment(get_torrent_payment_realtime_request) returns(get_torrent_payment_realtime_response);	
+	rpc get_account(get_account_request) returns(get_account_response);	
+}
+
